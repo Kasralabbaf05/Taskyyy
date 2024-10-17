@@ -10,11 +10,17 @@ const Card = ({cardNumber}: CardProps) => {
     const taskContext = useContext(TasksContext)
     const inputRef = useRef<HTMLInputElement | null>(null)
     function addTask (event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === 'Enter' && inputRef.current?.value !== undefined) {
+        if (event.key === 'Enter' && inputRef.current?.value == ''){
+            event.preventDefault()
+        }
+        else if (event.key === 'Enter' && inputRef.current?.value !== undefined) {
+            
             let newTask: Task = {cardNumber: cardNumber, taskName: inputRef.current.value}
             taskContext?.handleAddTask(newTask)
             inputRef.current.value = ''
         }
+
+        
         
     }
     function handleDoneTask (event: React.MouseEvent<HTMLLIElement>) {
@@ -36,7 +42,7 @@ const Card = ({cardNumber}: CardProps) => {
         console.log(target.classList)
     }
     return ( 
-        <div className="shrink border border-white rounded-lg ms-2 mt-2 bg-black" style={{flexBasis: "100px", minHeight: "200px"}}>
+        <div className="shrink border border-white rounded-lg ms-2 mt-2 bg-black" style={{flexBasis: "100px", minHeight: "200px", maxHeight: "fit-content"}}>
             <input ref={inputRef} onKeyDown={addTask} type="text" className="bg-black rounded-lg focus:outline-0 focus:bg-darkgray text-white p-1 m-2" placeholder="Enter The Task Name..." />
             <hr className="text-white" />
             <ul className="p-2.5">
